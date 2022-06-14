@@ -1,16 +1,48 @@
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Stack, Paper, Box } from "@mui/material";
+import axios from "axios";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom"
 
-function ShopingList({ productsFromRedux }) {
+function ShopingList({ shopingListFromRedux, setShopingList }) {
+  let { id } = useParams();
+
+  const dispatch = useDispatch();
+
+  const getShoppingList = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:9000/products/shopingList"
+      );
+      dispatch({ type: "SET_SHOPING_LIST", value: response.data})
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteProduct = async (productId) => {
+    try {
+       await axios.delete(`http://localhost:9000/products/shopingList/${productId}`);
+        dispatch({ type: "REMOVE_PRODUCT", value: productId})
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getShoppingList();
+  }, []);
+
   return (
     <div className={commonColumnsStyles.App}>
       <header className={commonColumnsStyles.AppHeader}>
         <p>Shoping List</p>
         <Stack spacing={2}>
-          {productsFromRedux?.map((product, index) => (
-            <Box key={product.id}>
-              <Paper>{`${product.name}`}</Paper>
+          {shopingListFromRedux?.map((product, index) => (
+            <Box key={index}>
+              <Paper onClick={() => deleteProduct(product.id)}>{`${product.name}`}</Paper>
             </Box>
           ))
           }
@@ -22,8 +54,8 @@ function ShopingList({ productsFromRedux }) {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    // setLoadingAirportsState: (value) =>
-    //   dispatch({ type: "SET_AIRPORTS_LOADING_STATE", value: value }),
+    setShopingList: (value) =>
+      dispatch({ type: "SET_SHOPING_LIST", value: value }),
     // setSelectedAirport: (value) =>
     //   dispatch({ type: "SET_SELECTED_AIRPORT", value: value }),
   };
@@ -32,7 +64,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   // state - dane pochodzące z redux sotre'a
   return {
-    productsFromRedux: state.products.shopingList,
+    shopingListFromRedux: state.products.shopingList,
     // airportsListLoadingStatus: state.airport.airportsIsLoading,
     // airportsListLoadingError: state.airport.loadingAirportsError,
     // airportsFromRedux - tak będzie się nazywał props wewnątrz komponentu

@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../common/styles/Headers.module.scss";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
+import { useDispatch, connect } from "react-redux";
 
-function ProductsFilters() {
+function ProductsFilters( { filterProducts }) {
+
+  const dispatch = useDispatch();
+  const [text, setText] = useState("");
+  const [food, setFood] = useState(false)
+
+  useEffect(() => {
+    filterProducts({text: text, food: food})
+  },[text, food])
   return (
     <div className={styles.filtersHeaderWrapper}>
       <Typography variant="h4">Filtruj produkty: </Typography>
@@ -18,14 +27,17 @@ function ProductsFilters() {
                 margin="dense"
                 label="Nazwa"
                 variant="outlined"
-                // value=''
-                // onChange={}
+                onChange={(e) => setText(e.target.value)}
+                 value={text}
+                 
               />
             }
           />
           <FormControlLabel
             control={<Checkbox />}
             label="Tylko produkty spożywcze"
+            checked={food}
+            onChange={() => setFood(!food)}
           />
         </div>
       </FormGroup>
@@ -33,4 +45,12 @@ function ProductsFilters() {
   );
 }
 
-export default ProductsFilters;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    filterProducts: (value) =>
+      dispatch({ type: "FILTER_PRODUCTS_LIST", value: value }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProductsFilters);

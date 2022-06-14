@@ -1,5 +1,7 @@
 
 export const initialProductState = {
   productsList: [],
-  shoppingList: [],
+  shopingList: [],
+  filteredList: [],
+  selectedProduct: {},
 };

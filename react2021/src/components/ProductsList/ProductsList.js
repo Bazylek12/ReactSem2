@@ -1,27 +1,39 @@
 import React from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Stack, Paper, Box } from "@mui/material";
 import axios from "axios";
+import ShopingList from "../ShopingList/ShopingList";
+import { useNavigate } from "react-router";
 
-function ProductsList({ productsFromRedux }, props) {
+function ProductsList({ productsFromRedux, addToShopingList, setSelectedProduct }) {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const addProductToShoppingList = async (product) => {
+  const addProduct = async (product) => {
+    console.log();
     try {
-      // props.setLoadingAirportsState("loading");
-      // const response = await axios.post(`http://localhost:9000/products/shopingList/new`, product);
-      const res = await axios.get(`http://localhost:9000/products/shopingList`);
-      props.setShopingList(res.data);
-      // props.setInitialProductsList(response.data);
-      // props.setLoadingAirportsState("initial");
-    } catch (e) {
-      // props.setLoadingAirportsState("error");
-      // props.setLoadingAirportsError(e.message);
-      console.log("ERROR", e);
+      const response = await axios.post(
+        "http://localhost:9000/products/shopingList/new",
+        product
+      );
+
+      addToShopingList(response.data);
+    } catch (err) {
+      console.log(err);
     }
   };
-
+  const showDetails = async (product) => {
+    try {
+      const response = await axios.get(`http://localhost:9000/products/${product.id}`);
+      setSelectedProduct(response.data);
+      navigate(`/product/details/${product.id}`)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
   return (
     <div className={commonColumnsStyles.App}>
       <header className={commonColumnsStyles.AppHeader}>
@@ -40,7 +52,15 @@ function ProductsList({ productsFromRedux }, props) {
         <Stack spacing={2}>
           {productsFromRedux?.map((product, index) => (
             <Box key={product.id}>
-              <Paper onClick={() => addProductToShoppingList(product)}>{`${product.name}`}</Paper>
+              <Paper 
+                onClick={() => addProduct(product)}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  showDetails(product)
+                }}
+                >
+                {`${product.name}`}
+              </Paper>
             </Box>
           ))
           }
@@ -54,8 +74,10 @@ function ProductsList({ productsFromRedux }, props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setShopingList: (value) =>
-      dispatch({ type: "ADD_PRODUCT_TO_SHOPPING_LIST", value: value })
+    addToShopingList: (value) =>
+      dispatch({ type: "ADD_PRODUCT", value: value }),
+    setSelectedProduct: (value) => 
+      dispatch({type: "SET_SELECTED_PRODUCT", value: value})
     // setSelectedAirport: (value) =>
     //   dispatch({ type: "SET_SELECTED_AIRPORT", value: value }),
   };
@@ -64,7 +86,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   // state - dane pochodzące z redux sotre'a
   return {
-    productsFromRedux: state.products.productsList,
+    productsFromRedux: state.products.filteredList,
     // airportsListLoadingStatus: state.airport.airportsIsLoading,
     // airportsListLoadingError: state.airport.loadingAirportsError,
     // airportsFromRedux - tak będzie się nazywał props wewnątrz komponentu
