@@ -5,7 +5,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSelector } from "react-redux";
 import { getSelectedProduct } from "../../redux/products/selectors";
 
-
 function ProductDetails() {
     let navigate = useNavigate();
     const goBack = () => {
@@ -13,7 +12,6 @@ function ProductDetails() {
     }
 
     const productDetails = useSelector((store) => getSelectedProduct(store));
-
 
     return (
         <>
