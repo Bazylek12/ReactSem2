@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { getSelectedProduct } from "../../redux/products/selectors";
 
 function ProductDetails() {
+
     let navigate = useNavigate();
     const goBack = () => {
         navigate(-1);

@@ -4,4 +4,6 @@ export const initialProductState = {
   shopingList: [],
   filteredList: [],
   selectedProduct: {},
+  loadingStatus: "initial",
+  selectedIndex: 0,
 };
