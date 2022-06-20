@@ -66,9 +66,10 @@ function ProductsList({
         <p>Products list</p>
         <Stack spacing={2}>
           {productsFromRedux?.map((product, index) => (
-            <Box key={index}>
-              {loadingProductId === product.id ? <CircularProgress /> :
+            <Box key={index} >
+              {loadingProductId === product.id ? <CircularProgress id="productSpinner" /> :
                 <Span active={index === selectedIndex ? true : false}
+                  id="product"
                   tabIndex={0}
                   role="button"
                   aria-pressed={index === selectedIndex}

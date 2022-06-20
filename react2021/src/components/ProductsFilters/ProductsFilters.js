@@ -7,14 +7,14 @@ import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
 import { connect } from "react-redux";
 
-function ProductsFilters( { filterProducts }) {
+function ProductsFilters({ filterProducts }) {
 
   const [text, setText] = useState("");
   const [food, setFood] = useState(false)
 
   useEffect(() => {
-    filterProducts({text: text, food: food})
-  },[text, food])
+    filterProducts({ text: text, food: food })
+  }, [text, food])
   return (
     <div className={styles.filtersHeaderWrapper}>
       <Typography variant="h4">Filtruj produkty: </Typography>
@@ -23,11 +23,12 @@ function ProductsFilters( { filterProducts }) {
           <FormControlLabel
             control={
               <TextField
+                id="filter"
                 margin="dense"
                 label="Nazwa"
                 variant="outlined"
                 onChange={(e) => setText(e.target.value)}
-                 value={text}
+                value={text}
               />
             }
           />

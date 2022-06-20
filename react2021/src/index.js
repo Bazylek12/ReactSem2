@@ -19,7 +19,7 @@ ReactDOM.render(
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
         <Route path="product" element={<App />}>
-         <Route path="details/:id" element={<ProductsDetails />} />
+          <Route path="details/:id" element={<ProductsDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -27,6 +27,9 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
+if (window.Cypress) {
+  window.store = store;
+}
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

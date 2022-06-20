@@ -25,7 +25,7 @@ function LoginPage() {
         <Box sx={{ m: 2 }}>
           <TextField
             margin="dense"
-            id="outlined-basic"
+            id="fname"
             label="First name"
             variant="outlined"
             value={userfirstName}
@@ -35,7 +35,7 @@ function LoginPage() {
         <Box sx={{ m: 2 }}>
           <TextField
             margin="dense"
-            id="outlined-basic"
+            id="lname"
             label="Last name"
             variant="outlined"
             value={userLastName}
@@ -47,6 +47,7 @@ function LoginPage() {
             disabled={!userfirstName || !userLastName}
             variant="contained"
             type="submit"
+            id="loginButton"
           >
             Zaloguj się
           </Button>

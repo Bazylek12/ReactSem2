@@ -24,9 +24,9 @@ function Header(props) {
           Zalogowany:{" "}
           {`${currentUser.userfirstName} ${currentUser.userLastName}`}
         </Typography>
-        <Button variant="contained" onClick={setInitialValues}>Załaduj lotniska</Button>
+        <Button variant="contained" onClick={setInitialValues} id="loadProducts">Załaduj lotniska</Button>
         <Link to="/">
-          <Button variant="contained" color="error">
+          <Button variant="contained" color="error" id="logoutButton">
             Wyloguj
           </Button>
         </Link>

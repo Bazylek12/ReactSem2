@@ -16,18 +16,18 @@ function ProductDetails() {
 
     return (
         <>
-            <ArrowBackIcon onClick={goBack} fontSize="large"  />
+            <ArrowBackIcon onClick={goBack} fontSize="large" id="goBack" />
             <div className={commonColumnsStyles.App}>
                 <header className={commonColumnsStyles.AppHeader}>
                     <p>Products Details</p>
                     {
                         <>
-                            <span>Nazwa: {productDetails.name}</span>
-                            <span>Kategoria: {productDetails.category}</span>
-                            <span>Jedzenie?: {productDetails.isFood ? ("Tak") : ("Nie")}</span>
+                            <span id="productName">Nazwa: {productDetails.name}</span>
+                            <span id="category">Kategoria: {productDetails.category}</span>
+                            <span id="isFood">Jedzenie?: {productDetails.isFood ? ("Tak") : ("Nie")}</span>
                         </>
                     }
-                    
+
                 </header>
             </div>
         </>

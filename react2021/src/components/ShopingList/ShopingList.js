@@ -1,6 +1,6 @@
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { connect, useDispatch } from "react-redux";
-import { Stack, Paper, Box } from "@mui/material";
+import { Stack, Box } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -45,11 +45,11 @@ function ShopingList({ shopingListFromRedux, setLoadingProductStatus, productSta
       <header className={commonColumnsStyles.AppHeader}>
         <p>Shoping List</p>
         <Stack spacing={2}>
-          {productStatus === "loading" ? (<CircularProgress />
+          {productStatus === "loading" ? (<CircularProgress id="spinner" />
           ) : (
             shopingListFromRedux?.map((product, index) => (
               <Box key={index}>
-                <Span onClick={() => deleteProduct(product.id)}>{`${product.name}`}</Span>
+                <Span id="shoppingList" onClick={() => deleteProduct(product.id)}>{`${product.name}`}</Span>
               </Box>
             ))
           )}
