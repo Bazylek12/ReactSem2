@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { connect, useDispatch } from "react-redux";
-import { Stack, Paper, Box } from "@mui/material";
+import { Stack, Box } from "@mui/material";
 import axios from "axios";
-import ShopingList from "../ShopingList/ShopingList";
 import { useNavigate } from "react-router";
-import styles from "./ProductsList.module.scss";
+import { Span } from '../ProductsList/styles'
 import CircularProgress from "@mui/material/CircularProgress";
 import useKeyPress from "../../hooks/useKeyPress";
 
@@ -27,11 +26,15 @@ function ProductsList({
   useEffect(() => {
     if (arrowUpPressed) {
       dispatch({ type: "ARROW_UP" });
-      }
+    }
     if (arrowDownPressed) {
       dispatch({ type: "ARROW_DOWN" });
-      }
-  }, [arrowUpPressed, arrowDownPressed]);
+    }
+    if (keyBoardDetails) {
+
+      console.log(productsFromRedux[0])
+    }
+  }, [arrowUpPressed, arrowDownPressed, keyBoardDetails]);
 
 
   const addProduct = async (product) => {
@@ -56,34 +59,19 @@ function ProductsList({
       console.log(err);
     }
   }
-  
+
   return (
     <div className={commonColumnsStyles.App}>
       <header className={commonColumnsStyles.AppHeader}>
         <p>Products list</p>
-        {/* Poniżej znajduje się ostylowany aktywny produkt do zadania 5
-        <span
-          style={{
-            backgroundColor: "white",
-            border: "1px black solid",
-            borderRadius: "16px",
-            padding: "6px",
-          }}
-        >
-          Przykładowy aktywny produkt
-        </span> */}
         <Stack spacing={2}>
           {productsFromRedux?.map((product, index) => (
             <Box key={index}>
               {loadingProductId === product.id ? <CircularProgress /> :
-                <Paper
-                sx={{
-                  cursor: "pointer",
-                  color: index === selectedIndex ? "red" : "black"
-                }}
-                tabIndex={0}
-                role="button"
-                aria-pressed={index === selectedIndex}
+                <Span active={index === selectedIndex ? true : false}
+                  tabIndex={0}
+                  role="button"
+                  aria-pressed={index === selectedIndex}
                   onClick={() => addProduct(product)}
                   onContextMenu={(e) => {
                     e.preventDefault();
@@ -91,12 +79,10 @@ function ProductsList({
                   }}
                 >
                   {`${product.name}`}
-                </Paper>}
+                </Span>}
             </Box>
-          ))
-          }
+          ))}
         </Stack>
-
       </header>
     </div>
   );
@@ -110,20 +96,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "SET_SELECTED_PRODUCT", value: value }),
     setLoadingProductStatus: (value) =>
       dispatch({ type: "SET_PRODUCTS_LOADING_STATE", value: value })
-    // setSelectedAirport: (value) =>
-    //   dispatch({ type: "SET_SELECTED_AIRPORT", value: value }),
   };
 };
 
 const mapStateToProps = (state) => {
-  // state - dane pochodzące z redux sotre'a
   return {
     productsFromRedux: state.products.filteredList,
     selectedIndex: state.products.selectedIndex,
-    // airportsListLoadingStatus: state.airport.airportsIsLoading,
-    // airportsListLoadingError: state.airport.loadingAirportsError,
-    // airportsFromRedux - tak będzie się nazywał props wewnątrz komponentu
-    // state.airport.airports - źródło danych które mają być dostępne jako "props.airportsFromRedux"
   };
 };
 

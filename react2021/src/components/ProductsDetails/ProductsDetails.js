@@ -16,17 +16,18 @@ function ProductDetails() {
 
     return (
         <>
-            <ArrowBackIcon onClick={goBack} fontSize="large" />
+            <ArrowBackIcon onClick={goBack} fontSize="large"  />
             <div className={commonColumnsStyles.App}>
                 <header className={commonColumnsStyles.AppHeader}>
                     <p>Products Details</p>
-                    {productDetails && (
+                    {
                         <>
                             <span>Nazwa: {productDetails.name}</span>
                             <span>Kategoria: {productDetails.category}</span>
                             <span>Jedzenie?: {productDetails.isFood ? ("Tak") : ("Nie")}</span>
                         </>
-                    )}
+                    }
+                    
                 </header>
             </div>
         </>

@@ -35,9 +35,9 @@ export const productReducer = (state = initialProductState, action) => {
     case "SET_PRODUCTS_LOADING_STATE":
       return { ...state, loadingStatus: action.value };
     case "ARROW_UP":
-      return { ...state, selectedIndex: state.selectedIndex !== 0 ? state.selectedIndex - 1 : 0}
+      return { ...state, selectedIndex: state.selectedIndex !== 0 ? state.selectedIndex - 1 : state.filteredList.length -1}
     case "ARROW_DOWN":
-      return { ...state, selectedIndex: state.selectedIndex !== 8 ? state.selectedIndex + 1 : 8}
+      return { ...state, selectedIndex: state.selectedIndex !== state.filteredList.length -1 ? state.selectedIndex + 1 : 0}
     default:
       return state;
   }

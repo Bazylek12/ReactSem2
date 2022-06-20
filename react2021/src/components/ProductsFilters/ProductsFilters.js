@@ -5,11 +5,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
-import { useDispatch, connect } from "react-redux";
+import { connect } from "react-redux";
 
 function ProductsFilters( { filterProducts }) {
 
-  const dispatch = useDispatch();
   const [text, setText] = useState("");
   const [food, setFood] = useState(false)
 
@@ -29,7 +28,6 @@ function ProductsFilters( { filterProducts }) {
                 variant="outlined"
                 onChange={(e) => setText(e.target.value)}
                  value={text}
-                 
               />
             }
           />
@@ -44,7 +42,6 @@ function ProductsFilters( { filterProducts }) {
     </div>
   );
 }
-
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -4,6 +4,7 @@ import { Stack, Paper, Box } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Span } from '../ProductsList/styles.js'
 
 function ShopingList({ shopingListFromRedux, setLoadingProductStatus, productStatus }) {
 
@@ -48,7 +49,7 @@ function ShopingList({ shopingListFromRedux, setLoadingProductStatus, productSta
           ) : (
             shopingListFromRedux?.map((product, index) => (
               <Box key={index}>
-                <Paper onClick={() => deleteProduct(product.id)}>{`${product.name}`}</Paper>
+                <Span onClick={() => deleteProduct(product.id)}>{`${product.name}`}</Span>
               </Box>
             ))
           )}
@@ -67,14 +68,9 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-  // state - dane pochodzące z redux sotre'a
   return {
     shopingListFromRedux: state.products.shopingList,
     productStatus: state.products.loadingStatus,
-    // airportsListLoadingStatus: state.airport.airportsIsLoading,
-    // airportsListLoadingError: state.airport.loadingAirportsError,
-    // airportsFromRedux - tak będzie się nazywał props wewnątrz komponentu
-    // state.airport.airports - źródło danych które mają być dostępne jako "props.airportsFromRedux"
   };
 };
 
